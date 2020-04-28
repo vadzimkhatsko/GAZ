@@ -48,13 +48,21 @@ class FinanceCosts(models.Model): #  A 1000      B 2000
         verbose_name = 'Статья финансирования'
         verbose_name_plural = 'Статьи финансирования'
 
-
+import datetime
 class Quart(models.Model): # A1-250|A2-250|A3-250|A4-250|B1-500|B2-500|B3-500|B4-500
     finance_cost = models.ForeignKey(FinanceCosts, on_delete=models.DO_NOTHING)
     total = models.FloatField(verbose_name="сумма по кварталу")
     title = models.CharField(max_length=50)
 
     # TODO сделать возможным выбор кварталов от 1 до 4
+    class QuartNum(models.IntegerChoices):
+        I = 1
+        II = 2
+        III = 3
+        IV = 4
+    number = models.IntegerField(verbose_name='Квартал', choices=QuartNum.choices)
+    year = models.PositiveIntegerField(default=(datetime.date.today().year), max_length=4)
+
 
     def __str__(self):
         try:
@@ -65,6 +73,10 @@ class Quart(models.Model): # A1-250|A2-250|A3-250|A4-250|B1-500|B2-500|B3-500|B4
     class Meta:
         verbose_name = 'Квартал'
         verbose_name_plural = 'Кварталы'
+        constraints = [
+            models.CheckConstraint(check=models.Q(year=2019), name='test')
+        ]
+
 
 
 class CuratorQuartCosts(models.Model): # vadim a1 100    ser a1 100
