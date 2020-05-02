@@ -7,6 +7,8 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.contrib import messages
 from django.core.mail import send_mail
 
+# эТО КОМЕНТ ПРПРПРП
+
 def index(request):
     context = {'pas': BaseUserManager().make_random_password(4)}
     return render(request, 'planes/index.html',context)
