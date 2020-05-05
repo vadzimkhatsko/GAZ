@@ -12,6 +12,7 @@ from django.core.mail import send_mail
 def index(request):
     return render(request, 'planes/index.html')
 
+
 def logout_view(request):
     logout(request)
     return render(request, 'planes/index.html')
@@ -38,6 +39,7 @@ def login_view(request,):
     return render(request, 'registration/login.html', {'form': form})
 
 
+@login_required
 def register_view(request):
     form = None
     if request.method == 'POST':
