@@ -1,26 +1,56 @@
 from django.contrib import admin
-from .models import (Curator, CustomUser, FinanceCosts,
-                     Contract)
+from .models import (
+    Curator,
+    UserTypes,
+    UserSub,
+    CustomUser,
+    UserActivityJournal,
+    FinanceCosts,
+    PurchaseType,
+    ActivityForm,
+    StateASEZ,
+    NumberPZTRU,
+    ContractStatus,
+    Currency,
+    ContractType,
+    ContractMode,
+    Counterpart,
+    SumsRUR,
+    SumsBYN,
+    Planning,
+    Contract,
+)
 
-from .models import (PurchaseType, ActivityForm, StateASEZ,
-                     NumberPZTRU, ContractStatus, Currency,
-                     Price, ContractTerm, Counterpart,)
+models = (
+    Curator,
+    UserTypes,
+    UserSub,
+    CustomUser,
+    UserActivityJournal,
+    FinanceCosts,
+    PurchaseType,
+    ActivityForm,
+    StateASEZ,
+    NumberPZTRU,
+    ContractStatus,
+    Currency,
+    ContractType,
+    ContractMode,
+    Counterpart,
+    SumsRUR,
+    SumsBYN,
+    Planning
+)
 
 
-
-admin.site.register(Curator)
-admin.site.register(FinanceCosts)
-admin.site.register(CustomUser)
-admin.site.register(Contract)
-
-admin.site.register(PurchaseType)
-admin.site.register(ActivityForm)
-admin.site.register(StateASEZ)
-admin.site.register(NumberPZTRU)
-admin.site.register(ContractStatus)
-admin.site.register(Currency)
-admin.site.register(Price)
-admin.site.register(ContractTerm)
-admin.site.register(Counterpart)
+class ContractAdmin(admin.ModelAdmin):
+    class Media:
+        js = ("blabla.js", )
 
 
+admin.site.register(Contract, ContractAdmin)
+
+
+for model in models:
+    admin.site.register(model)
+# Register your models here.
