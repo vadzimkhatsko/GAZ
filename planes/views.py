@@ -1,11 +1,15 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
-from .forms import LoginForm, RegisterForm
+from .forms import (
+    LoginForm,
+    RegisterForm,
+    ContractForm,)
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
+from django.views import View
 
 
 @login_required
@@ -13,6 +17,7 @@ def index(request):
     return render(request, 'planes/index.html')
 
 
+@login_required
 def logout_view(request):
     logout(request)
     return render(request, 'planes/index.html')
@@ -73,3 +78,11 @@ def register_view(request):
         form = RegisterForm()
     context = {'form': form}
     return render(request, 'registration/register.html', context)
+
+
+class ContractView(View):
+    template_name = 'contracts/contract_main.html'
+
+    def get(self, request):
+        form = ContractForm
+        return render(request, template_name=self.template_name, context={'form':form})
