@@ -4,7 +4,9 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import (
     LoginForm,
     RegisterForm,
-    ContractForm,)
+    ContractForm,
+    Contract,
+)
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -84,5 +86,11 @@ class ContractView(View):
     template_name = 'contracts/contract_main.html'
 
     def get(self, request):
+        test = Contract.objects.all()
         form = ContractForm
-        return render(request, template_name=self.template_name, context={'form':form})
+        return render(request, template_name=self.template_name, context={
+                                                                    'form':form,
+                                                                    'test':test,
+                                                                     })
+
+

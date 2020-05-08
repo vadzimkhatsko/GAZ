@@ -12,6 +12,12 @@ class Curator(models.Model):
         verbose_name="Куратор"
     )
 
+    def __str__(self):
+        try:
+            return str(self.title)
+        except:
+            return 'Ошибка в данных'
+
 
 class UserTypes(models.Model):
     class Meta:
@@ -23,8 +29,18 @@ class UserTypes(models.Model):
         verbose_name="Тип пользователя (Администратор, Куратор, БПиЭА, Пользователь)"
     )
 
+    def __str__(self):
+        try:
+            return str(self.title)
+        except:
+            return 'Ошибка в данных'
+
 
 class UserSub(models.Model):
+    class Meta:
+        verbose_name = "Подтип пользователя"
+        verbose_name_plural = "Подтипы пользователя"
+
     group = models.ForeignKey(
         UserTypes,
         verbose_name="Группа пользователей",
@@ -37,8 +53,18 @@ class UserSub(models.Model):
         null=True
     )
 
+    def __str__(self):
+        try:
+            return str(self.title)
+        except:
+            return 'Ошибка в данных'
+
 
 class CustomUser(models.Model):
+    class Meta:
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
+
     user = models.OneToOneField(
         User,
         on_delete=models.DO_NOTHING,
@@ -72,8 +98,19 @@ class CustomUser(models.Model):
         on_delete=models.DO_NOTHING
     )
 
+    def __str__(self):
+        try:
+            return '%s - %s' % (self.curator, self.name)
+        except:
+            return 'Ошибка в данных'
+
+
 
 class UserActivityJournal(models.Model):
+    class Meta:
+        verbose_name = 'Журнал активности пользователя'
+        verbose_name_plural = 'Журналы активностей'
+
     user = models.ForeignKey(
         User,
         verbose_name="Пользователь",
@@ -96,71 +133,172 @@ class UserActivityJournal(models.Model):
         blank=True
     )
 
+    def __str__(self):
+        try:
+            return str(self.user)
+        except:
+            return 'Ошибка в данных'
+
 
 class FinanceCosts(models.Model):
+    class Meta:
+        verbose_name = 'Статья финансирования'
+        verbose_name_plural = 'Статьи финансирования'
+
     title = models.CharField(
         verbose_name="Название статьи",
         max_length=100
     )
 
+    def __str__(self):
+        try:
+            return str(self.title)
+        except:
+            return 'Ошибка в данных'
+
 
 class PurchaseType(models.Model):
+    class Meta:
+        verbose_name = 'Тип закупки'
+        verbose_name_plural = 'Типы закупок'
+
     title = models.CharField(
         max_length=200,
-        verbose_name="Вид закупки (Конкурентная, неконкурентная)"
+        verbose_name="Тип закупки (Конкурентная, неконкурентная)"
     )
+
+    def __str__(self):
+        try:
+            return str(self.title)
+        except:
+            return 'Ошибка в данных'
 
 
 class ActivityForm(models.Model):
+    class Meta:
+        verbose_name = 'Вид деятельности'
+        verbose_name_plural = 'Виды деятельности'
+
     title = models.CharField(
         max_length=200,
         verbose_name="Вид деятельности"
     )
 
+    def __str__(self):
+        try:
+            return str(self.title)
+        except:
+            return 'Ошибка в данных'
+
 
 class StateASEZ(models.Model):
+    class Meta:
+        verbose_name = 'Состояние АСЭЗ'
+        verbose_name_plural = 'Состояние АСЭЗ'
+
     title = models.CharField(
         max_length=200,
         verbose_name="Состояние АСЭЗ"
     )
 
+    def __str__(self):
+        try:
+            return str(self.title)
+        except:
+            return 'Ошибка в данных'
+
 
 class NumberPZTRU(models.Model):
+    class Meta:
+        verbose_name = 'Номер пункта ПоЗТРУ'
+        verbose_name_plural = 'Номера пунктов ПоЗТРУ'
+
     title = models.CharField(
         max_length=200,
         verbose_name="Номер пункта ПоЗТРУ"
     )
 
+    def __str__(self):
+        try:
+            return str(self.title)
+        except:
+            return 'Ошибка в данных'
+
 
 class ContractStatus(models.Model):
+    class Meta:
+        verbose_name = 'Статус договора'
+        verbose_name_plural = 'Статусы договоров'
+
     title = models.CharField(
         max_length=200,
         verbose_name="Статус договора"
     )
 
+    def __str__(self):
+        try:
+            return str(self.title)
+        except:
+            return 'Ошибка в данных'
+
 
 class Currency(models.Model):
+    class Meta:
+        verbose_name = 'Валюта'
+        verbose_name_plural = 'Типы валют'
+
     title = models.CharField(
         max_length=10,
         verbose_name="Валюта"
     )
 
+    def __str__(self):
+        try:
+            return str(self.title)
+        except:
+            return 'Ошибка в данных'
+
+
 
 class ContractType(models.Model):
+    class Meta:
+        verbose_name = 'Тип договора'
+        verbose_name_plural = 'Типы договоров'
+
     title = models.CharField(
         max_length=150,
         help_text="Тип договора(Центр, Филиал)"
     )
 
+    def __str__(self):
+        try:
+            return str(self.title)
+        except:
+            return 'Ошибка в данных'
+
 
 class ContractMode(models.Model):
+    class Meta:
+        verbose_name = 'Вид договора'
+        verbose_name_plural = 'Виды договоров'
+
     title = models.CharField(
         max_length=150,
         help_text="Вид договора (Основной, доп.соглашение)"
     )
 
+    def __str__(self):
+        try:
+            return str(self.title)
+        except:
+            return 'Ошибка в данных'
+
 
 class Counterpart(models.Model):
+    class Meta:
+        verbose_name = 'Контрагент'
+        verbose_name_plural = 'Контрагенты'
+
     name = models.CharField(
         max_length=100,
         verbose_name="Контрагент"
@@ -170,8 +308,18 @@ class Counterpart(models.Model):
     UNP = models.CharField(max_length=100)
     phone = models.CharField(max_length=100)
 
+    def __str__(self):
+        try:
+            return str(self.name)
+        except:
+            return 'Ошибка в данных'
+
 
 class Contract(models.Model):
+    class Meta:
+        verbose_name = 'Договор'
+        verbose_name_plural = 'Договоры'
+
     title = models.CharField(
         max_length=150,
         verbose_name="наименование договора"
@@ -284,8 +432,20 @@ class Contract(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)  # TODO   contract_mode
 
+    def __str__(self):
+        try:
+            return 'Договор %s, куратор %s, ст. фин %s' % (self.title,
+                                                           self.curator,
+                                                           self.finance_cost)
+        except:
+            return 'Ошибка в данных'
+
 
 class SumsRUR(models.Model):
+    class Meta:
+        verbose_name = 'Сумма RUR'
+        verbose_name_plural = 'Суммы RUR'
+
     contract = models.ForeignKey(
         Contract,
         verbose_name="Контракт",
@@ -319,8 +479,18 @@ class SumsRUR(models.Model):
         null=True
     )
 
+    def __str__(self):
+        try:
+            return 'Договор %s, сумма %s' % (self.contract, self.contract_sum_NDS_RUB)
+        except:
+            return 'Ошибка в данных'
+
 
 class SumsBYN(models.Model):
+    class Meta:
+        verbose_name = 'Сумма BYN'
+        verbose_name_plural = 'Суммы BYN'
+
     contract = models.ForeignKey(Contract, on_delete=models.DO_NOTHING)
     year = models.DateField()
     plan_sum_SAP = models.FloatField(
@@ -373,8 +543,19 @@ class SumsBYN(models.Model):
         null=True
     )
 
+    def __str__(self):
+        try:
+            return 'Договор %s, сумма %s' % (self.contract, self.contract_sum_with_NDS_BYN)
+        except:
+            return 'Ошибка в данных'
+
 
 class Planning(models.Model):
+    class Meta:
+        verbose_name = 'Планирование'
+        verbose_name_plural = 'Планирование'
+
+
     FinanceCosts = models.ForeignKey(
         FinanceCosts,
         verbose_name="Статья финансирования",
@@ -402,5 +583,13 @@ class Planning(models.Model):
         null=True,
         on_delete=models.DO_NOTHING
     )
+
+    def __str__(self):
+        try:
+            return 'Год %s, статья %s, куратор %s' % (self.year, self.FinanceCosts, self.curator)
+        except:
+            return 'Ошибка в данных'
+
+
 
 
