@@ -31,33 +31,37 @@
         <th>Сумма средст по заключенным договорам</th>
         <th>Экономия?</th>
     </tr>
+    {% for contract in contracts %}
+        <tr>
+            <td>{{ contract.title }}а</td>
+            <td>{{ contract.finance_cost }}</td>
+            <td>{{ contract.activity_form }}</td>
+            <td>{{ contract.curator }}</td>
+            <td>{{ contract.contract_type }}</td>
+            <td>{{ contract.contract_mode }}</td>
+            <td>{{ contract.purchase_type }}</td>
+            <td>{{ contract.number_ppz }}</td>
+            <td>{{ contract.stateASEZ }}</td>
+            <td>{{ contract.contract_status }}</td>
+            <td>{{ contract.plan_sum_SAP }}</td>
+            <td>{{ contract.register_number_SAP }}</td>
+            <td>{{ contract.contract_number }}</td>
+            <td>{{ contract.fact_sign_date }}</td>
+            <td>{{ contract.contract_period }}</td>
+            <td>{{ contract.counterpart }}</td>
+            <td>{{ contract.sum_bez_nds }}</td>
+            <td>{{ contract.forecast_total }}</td>
+            <td>{{ contract.economy_total }}</td>
+            <td>{{ contract.fact_total }}</td>
+            <td>{{ contract.economy_total_absolute }}</td>
+            <td>{{ contract.total_sum_unsigned_contracts }}</td>
+            <td>{{ contract.ecomy_result }}</td>
 
-    <tr>
-        <td>Наименование (предмет) договора, <br>доп соглашения к договору <br>СОДЕРЖАНИЕ РАБОТ</td>
-        <td>Статья финансирования</td>
-        <td>Виды деятельности</td>
-        <td>Куратор</td>
-        <td>Тип договора</td>
-        <td>Вид договора (основной /допсоглашение)</td>
-        <td>Тип закупки(конкурентная/неконкурентная ЕП, безальтернативный поставщик)</td>
-        <td>Номер ППЗ АСЭЗ</td>
-        <td>Состояние АСЭЗ</td>
-        <td>Статус договора</td>
-        <td>Плановая сумма SAP, всего</td>
-        <td>Регистрационный № договора в SAP</td>
-        <td>Номер договора</td>
-        <td>Фактическая дата заключения договора</td>
-        <td>Период действия договора</td>
-        <td>Контрагент</td>
-        <td>Сумма заключенного договора, всего без НДС</td>
-        <td>Прогноз, всего</td>
-        <td>Экономия по заключенному договору</td>
-        <td>Факт всего</td>
-        <td>Абсолютная экономия по договору, всего</td>
-        <td>Сумма средст по заключенным договорам</td>
-        <td>Экономия?</td>
 
-    </tr>
+        </tr>
+    {% endfor %}
+
+
 </table>
 
 <form action="">
@@ -67,9 +71,6 @@
     {% endfor %}
 </form>
 <hr>
-{% for c in contracts %}
-    {{ c }}<br>
-{% endfor %}<br>
 {{ contracts }}
 
 </body>

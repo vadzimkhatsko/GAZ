@@ -110,19 +110,9 @@ class ContractView(View):
     total_sum_unsigned_contracts = []
     ecomy_result = []
 
-
     def get(self, request):
         contracts = Contract.objects.filter(start_date__contains=self.today_year).order_by('-id')
-
-        for con in contracts:
-
-
-
         form = ContractForm
-
         return render(request, template_name=self.template_name, context={'form':form,
-                                                                          'contracts':contracts
-
+                                                                          'contracts':contracts,
                                                                         })
-
-
