@@ -416,7 +416,7 @@ class Contract(models.Model):
     plan_sign_date = models.DateField()
     fact_sign_date = models.DateField(
         null=True,
-        blank=True
+        blank=True,
     )
     start_date = models.DateField(
         verbose_name="дата начала контракта"
@@ -427,10 +427,11 @@ class Contract(models.Model):
     )
     counterpart = models.ForeignKey(
         Counterpart,
-        on_delete=models.DO_NOTHING)
+        on_delete=models.DO_NOTHING,
+        verbose_name='Контрагент')
 
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)  # TODO   contract_mode
+        super().save(*args, **kwargs)  # TODO   contact_mode
 
     def __str__(self):
         try:
