@@ -453,7 +453,7 @@ class SumsRUR(models.Model):
         on_delete=models.DO_NOTHING
     )
     start_max_price_ASEZ_NDS = models.PositiveIntegerField(
-        verbose_name="стартовая цена АСЭЗ с НДС ",
+        verbose_name="Начальная максимальная цена (НМЦ) АСЭЗ с НДС ",
         null=True,
         blank=True
     )
