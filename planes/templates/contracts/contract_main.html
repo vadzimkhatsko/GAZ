@@ -98,117 +98,103 @@
         <th>Экономия по результатам исполнения договоров, IV квартал</th>
         <th>Сумма средств по не заключенным договорам</th>
         <th>Абсолютная экономия по договору, всего</th>
-
-
-
-
-
-
-
-
-
-
-
-
     </tr>
-    {% for contract in contracts %}
+    {% for con_sum in contract_and_sum %}
         <tr>
-            <td>{{ contract.title }}а</td>
-            <td>{{ contract.finance_cost }}</td>
-            <td>{{ contract.activity_form }}</td>
-            <td>{{ contract.curator }}</td>
-            <td>{{ contract.contract_type }}</td>
-            <td>{{ contract.contract_mode }}</td>
-            <td>{{ contract.purchase_type }}</td>
-            <td>{{ contract.number_ppz }}</td>
-            <td>{{ contract.stateASEZ }}</td>
-            <td>{{ contract.number_PZTRU }}</td>
-            <td>{{ contract.contract_status }}</td>
-            <td>{{ contract.plan_load_date_ASEZ }}</td>
-            <td>{{ contract.fact_load_date_ASEZ }}</td>
-            <td class="SumsBYN">{{ contract.start_max_price_ASEZ_NDS }}</td>
-            <td class="SumsBYN">{{ contract.currency_rate_on_load_date_ASEZ_NDS }}</td>
-            <td class="SumsBYN">{{ contract.contract_sum_NDS_RUB }}</td>
-            <td class="SumsBYN">{{ contract.currency }}</td>
-            <td class="SumsBYN">{{ contract.delta_data_ASEZ }}</td>
+            <td>{{ con_sum.contract.title }}а</td>
+            <td>{{ con_sum.contract.finance_cost }}</td>
+            <td>{{ con_sum.contract.activity_form }}</td>
+            <td>{{ con_sum.contract.curator }}</td>
+            <td>{{ con_sum.contract.contract_type }}</td>
+            <td>{{ con_sum.contract.contract_mode }}</td>
+            <td>{{ con_sum.contract.purchase_type }}</td>
+            <td>{{ con_sum.contract.number_ppz }}</td>
+            <td>{{ con_sum.contract.stateASEZ }}</td>
+            <td>{{ con_sum.contract.number_PZTRU }}</td>
+            <td>{{ con_sum.contract.contract_status }}</td>
+            <td>{{ con_sum.contract.plan_load_date_ASEZ }}</td>
+            <td>{{ con_sum.contract.fact_load_date_ASEZ }}</td>
+            <td>{{ con_sum.sum_rur.start_max_price_ASEZ_NDS }}</td>
+            <td>{{ con_sum.sum_rur.currency_rate_on_load_date_ASEZ_NDS }}</td>
+            <td>{{ con_sum.sum_rur.contract_sum_NDS_RUB }}</td>
+            <td>{{ con_sum.sum_rur.currency }}</td>
+            <td>{{ con_sum.sum_rur.delta_data_ASEZ }}</td>
             <td class="no">КГГ?</td>
-            <td class="SumsBYN">ссап{{ contract.plan_sum_SAP }}</td>
+            <td>{{ con_sum.sum_byn.plan_sum_SAP }}</td>
             <td class="no">плановая сумма сап 1</td>
             <td class="no">плановая сумма сап 2</td>
             <td class="no">плановая сумма сап 3</td>
             <td class="no">плановая сумма сап 4</td>
-            <td>{{ contract.register_number_SAP }}</td>
-            <td>{{ contract.contract_number }}</td>
-            <td>{{ contract.plan_sign_date }}</td>
-            <td>{{ contract.fact_sign_date }}</td>
-            <td>{{ contract.start_date }}</td>
-            <td>{{ contract.end_time }}</td>
-            <td>{{ contract.counterpart }}</td>
-            <td class="SumsBYN">{{ contract.contract_sum_without_NDS_BYN }}</td>
+            <td>{{ con_sum.contract.register_number_SAP }}</td>
+            <td>{{ con_sum.contract.contract_number }}</td>
+            <td>{{ con_sum.contract.plan_sign_date }}</td>
+            <td>{{ con_sum.contract.fact_sign_date }}</td>
+            <td>{{ con_sum.contract.start_date }}</td>
+            <td>{{ con_sum.contract.end_time }}</td>
+            <td>{{ con_sum.contract.counterpart }}</td>
+            <td>{{ con_sum.sum_byn.contract_sum_without_NDS_BYN }}</td>
             <td>где 1 кв</td>
             <td>где 2 кв</td>
             <td>где 3 кв</td>
             <td>где 4 кв</td>
-            <td class="SumsBYN">{{ contract.contract_sum_with_NDS_BYN }}</td>
-            <td class="SumsBYN">{{ contract.contract_total_sum_with_sub_BYN }}</td>
-            <td>{{ contract.forecast_total }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
-            <td>{{ contract. }}</td>
+            <td>{{ con_sum.sum_byn.contract_sum_with_NDS_BYN }}</td>
+            <td>{{ con_sum.sum_byn.contract_total_sum_with_sub_BYN }}</td>
+            <td>{{ con_sum.sum_byn.forecast_total }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum.sum_byn.economy_total }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum.sum_byn.fact_total }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum.sum_byn.economy_contract_result }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum. }}</td>
+            <td>{{ con_sum.sum_byn.total_sum_unsigned_contracts }}</td>
+            <td>{{ con_sum.sum_byn.economy_total_absolute }}</td>
         </tr>
     {% endfor %}
-
 </table>
-
 
 </body>
 </html>

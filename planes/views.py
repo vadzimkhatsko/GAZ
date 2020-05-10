@@ -5,7 +5,6 @@ from .forms import (
     LoginForm,
     RegisterForm,
     ContractForm,
-    Contract,
 )
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -13,6 +12,11 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.views import View
 from datetime import date
+from .models import (
+    Contract,
+    SumsBYN,
+    SumsRUR,
+)
 
 
 @login_required
@@ -86,33 +90,20 @@ def register_view(request):
 class ContractView(View):
     template_name = 'contracts/contract_main.html'
     today_year = date.today().year
-    titles = []
-    finance_costs = []
-    activity_forms = []
-    curators = []
-    contract_type = []
-    contract_mode = []
-    purchase_type = []
-    number_ppz = [] # Номер ППЗ АСЭЗ
-    stateASEZ = []
-    contract_status = []
-    plan_sum_SAP = []
-    register_number_SAP = [] # Регистрационный № договора в SAP
-    contract_number = []
-    fact_sign_date = []
-    contract_period = [] # Период действия договора TODO это что?
-    counterpart = []
-    sum_bez_nds = []# Сумма заключенного договора, всего без НДС
-    forecast_total = []
-    economy_total = []
-    fact_total = []
-    economy_total_absolute = []
-    total_sum_unsigned_contracts = []
-    ecomy_result = []
 
     def get(self, request):
         contracts = Contract.objects.filter(start_date__contains=self.today_year).order_by('-id')
-        form = ContractForm
-        return render(request, template_name=self.template_name, context={'form':form,
-                                                                          'contracts':contracts,
+        contract_and_sum = []
+        for contract in contracts:
+            sum_byn = SumsBYN.objects.get(contract=contract)
+            sum_rur = SumsRUR.objects.get(contract=contract)
+            contract_and_sum.append(
+                {
+                    'contract':contract,
+                    'sum_byn':sum_byn,
+                    'sum_rur':sum_rur,
+                }
+            )
+        return render(request, template_name=self.template_name, context={'contracts':contracts,
+                                                                          'contract_and_sum':contract_and_sum
                                                                         })
