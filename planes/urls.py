@@ -1,4 +1,5 @@
 from django.urls import path, include
+from django.contrib.auth.decorators import login_required
 from .views import (
     index,
     register_view,
@@ -6,9 +7,10 @@ from .views import (
 )
 
 
+
 urlpatterns = [
     path('', index),
     path('register/', register_view, name='register'),
-    path('contracts/', ContractView.as_view(), name='contracts'),
+    path('contracts/', login_required(ContractView.as_view()), name='contracts'),
 
 ]
