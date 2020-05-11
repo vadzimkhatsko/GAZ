@@ -5,6 +5,8 @@ from .forms import (
     LoginForm,
     RegisterForm,
     ContractForm,
+    SumsBYNForm,
+    SumsRURForm,
 )
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -104,11 +106,37 @@ class ContractView(View):
                     'sum_rur':sum_rur,
                 }
             )
-        return render(request, template_name=self.template_name, context={'contracts':contracts,
-                                                                          'contract_and_sum':contract_and_sum
-                                                                        })
+        return render(request,
+                      template_name=self.template_name,
+                      context={'contracts':contracts,
+                               'contract_and_sum':contract_and_sum,
+                               })
 
 
 @login_required()
 def creacte_contract(request):
-    return render(request, template_name='contracts/add_new_contract.html', context={})
+    if request.method=='POST':
+        contract_form = ContractForm(request.POST)
+        sum_b_form = SumsBYNForm(request.POST)
+        sum_r_form = SumsRURForm(request.POST)
+        if \
+                contract_form.is_valid() \
+                and sum_b_form.is_valid() \
+                and sum_r_form.is_valid():
+            new_contract = contract_form.save()
+            contract_sum_b = sum_b_form.save(commit=False)
+            contract_sum_b.contract = new_contract
+            contract_sum_b.save()
+            contract_sum_r = sum_r_form.save(commit=False)
+            contract_sum_r.contract = new_contract
+            contract_sum_r.save()
+    contract_form = ContractForm
+    sum_b_form = SumsBYNForm
+    sum_r_form = SumsRURForm
+    return render(request,
+                  template_name='contracts/add_new_contract.html',
+                  context={
+                      'contract_form':contract_form,
+                      'sum_b_form':sum_b_form,
+                      'sum_r_form':sum_r_form,
+                  })
