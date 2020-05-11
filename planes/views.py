@@ -107,3 +107,8 @@ class ContractView(View):
         return render(request, template_name=self.template_name, context={'contracts':contracts,
                                                                           'contract_and_sum':contract_and_sum
                                                                         })
+
+
+@login_required()
+def creacte_contract(request):
+    return render(request, template_name='contracts/add_new_contract.html', context={})

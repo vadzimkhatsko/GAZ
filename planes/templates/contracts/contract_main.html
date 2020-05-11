@@ -99,9 +99,10 @@
         <th>Сумма средств по не заключенным договорам</th>
         <th>Абсолютная экономия по договору, всего</th>
     </tr>
+
     {% for con_sum in contract_and_sum %}
         <tr>
-            <td>{{ con_sum.contract.title }}а</td>
+            <td><a href="#">{{ con_sum.contract.title }}</a></td>
             <td>{{ con_sum.contract.finance_cost }}</td>
             <td>{{ con_sum.contract.activity_form }}</td>
             <td>{{ con_sum.contract.curator }}</td>
@@ -196,5 +197,6 @@
     {% endfor %}
 </table>
 
+<a href="{% url 'create_contract' %}">Создать договор</a>
 </body>
 </html>
