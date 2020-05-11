@@ -450,7 +450,7 @@ class SumsRUR(models.Model):
     contract = models.ForeignKey(
         Contract,
         verbose_name="Контракт",
-        on_delete=models.DO_NOTHING
+        on_delete=models.CASCADE
     )
     start_max_price_ASEZ_NDS = models.PositiveIntegerField(
         verbose_name="Начальная максимальная цена (НМЦ) АСЭЗ с НДС ",
@@ -492,7 +492,7 @@ class SumsBYN(models.Model):
         verbose_name = 'Сумма BYN'
         verbose_name_plural = 'Суммы BYN'
 
-    contract = models.ForeignKey(Contract, on_delete=models.DO_NOTHING)
+    contract = models.ForeignKey(Contract, on_delete=models.CASCADE)
     year = models.DateField()
     plan_sum_SAP = models.FloatField(
         verbose_name="Плановая сумма САП",

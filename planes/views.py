@@ -117,19 +117,23 @@ class ContractView(View):
 def creacte_contract(request):
     if request.method=='POST':
         contract_form = ContractForm(request.POST)
-        sum_b_form = SumsBYNForm(request.POST)
-        sum_r_form = SumsRURForm(request.POST)
+        sum_byn_form = SumsBYNForm(request.POST)
+        sum_rur_form = SumsRURForm(request.POST)
         if \
                 contract_form.is_valid() \
-                and sum_b_form.is_valid() \
-                and sum_r_form.is_valid():
-            new_contract = contract_form.save()
-            contract_sum_b = sum_b_form.save(commit=False)
-            contract_sum_b.contract = new_contract
-            contract_sum_b.save()
-            contract_sum_r = sum_r_form.save(commit=False)
-            contract_sum_r.contract = new_contract
-            contract_sum_r.save()
+                and sum_byn_form.is_valid() \
+                and sum_rur_form.is_valid():
+            try:
+                new_contract = contract_form.save()
+                contract_sum_bun = sum_byn_form.save(commit=False)
+                contract_sum_rur = sum_rur_form.save(commit=False)
+                contract_sum_bun.contract = new_contract
+                contract_sum_rur.contract = new_contract
+                contract_sum_bun.save()
+                contract_sum_rur.save()
+            except:
+                return HttpResponse('Ошибка')
+
     contract_form = ContractForm
     sum_b_form = SumsBYNForm
     sum_r_form = SumsRURForm
