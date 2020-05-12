@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.shortcuts import reverse
 
 
 class Curator(models.Model):
@@ -432,6 +433,9 @@ class Contract(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)  # TODO   contact_mode
+
+    def get_absolute_url(self):
+        return reverse('change_contract', kwargs={'contract_id':self.id})
 
     def __str__(self):
         try:

@@ -19,6 +19,7 @@ from .models import (
     SumsBYN,
     SumsRUR,
 )
+from django.forms import model_to_dict
 
 
 @login_required
@@ -114,7 +115,7 @@ class ContractView(View):
 
 
 @login_required()
-def creacte_contract(request):
+def create_contract(request, contract_id=None):
     if request.method=='POST':
         contract_form = ContractForm(request.POST)
         sum_byn_form = SumsBYNForm(request.POST)
@@ -133,14 +134,20 @@ def creacte_contract(request):
                 contract_sum_rur.save()
             except:
                 return HttpResponse('Ошибка')
+    else:
+        if not contract_id:
+            initial_contract = None
+        else:
+            contract_item = Contract.objects.get(id=contract_id)
+            initial_contract = model_to_dict(contract_item)
 
-    contract_form = ContractForm
-    sum_b_form = SumsBYNForm
-    sum_r_form = SumsRURForm
-    return render(request,
-                  template_name='contracts/add_new_contract.html',
-                  context={
-                      'contract_form':contract_form,
-                      'sum_b_form':sum_b_form,
-                      'sum_r_form':sum_r_form,
-                  })
+        contract_form = ContractForm(initial=initial_contract)
+        sum_b_form = SumsBYNForm(initial=initial_contract)
+        sum_r_form = SumsRURForm(initial=initial_contract)
+        return render(request,
+                      template_name='contracts/add_new_contract.html',
+                      context={
+                          'contract_form':contract_form,
+                          'sum_b_form':sum_b_form,
+                          'sum_r_form':sum_r_form,
+                      })
