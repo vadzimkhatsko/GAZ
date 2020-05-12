@@ -137,17 +137,24 @@ def create_contract(request, contract_id=None):
     else:
         if not contract_id:
             initial_contract = None
+            initial_sum_byn = None
+            initial_sum_rur = None
         else:
             contract_item = Contract.objects.get(id=contract_id)
+            sum_byn_item = SumsBYN.objects.get(contract=contract_item)
+            sum_rur_item = SumsRUR.objects.get(contract=contract_item)
             initial_contract = model_to_dict(contract_item)
+            initial_sum_byn = model_to_dict(sum_byn_item)
+            initial_sum_rur = model_to_dict(sum_rur_item)
 
         contract_form = ContractForm(initial=initial_contract)
-        sum_b_form = SumsBYNForm(initial=initial_contract)
-        sum_r_form = SumsRURForm(initial=initial_contract)
-        return render(request,
-                      template_name='contracts/add_new_contract.html',
-                      context={
-                          'contract_form':contract_form,
-                          'sum_b_form':sum_b_form,
-                          'sum_r_form':sum_r_form,
-                      })
+        sum_byn_form = SumsBYNForm(initial=initial_sum_byn)
+        sum_rur_form = SumsRURForm(initial=initial_sum_rur)
+    return render(request,
+                  template_name='contracts/add_new_contract.html',
+                  context={
+                      'contract_form':contract_form,
+                      'sum_b_form':sum_byn_form,
+                      'sum_r_form':sum_rur_form,
+                  })
+
