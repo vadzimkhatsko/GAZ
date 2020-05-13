@@ -19,6 +19,7 @@ from .models import (
     SumsBYN,
     SumsRUR,
 )
+from django.shortcuts import get_object_or_404
 from django.forms import model_to_dict
 
 
@@ -114,72 +115,46 @@ class ContractView(View):
                                })
 
 
-@login_required()
-def create_contract(request):
+@login_required
+def fabricate_contract(request, contract_id=None):
+    if not contract_id:
+        instance_contract = None
+        instance_sum_byn = None
+        instance_sum_rur = None
+    else:
+        instance_contract = get_object_or_404(Contract, id=contract_id)
+        instance_sum_byn = get_object_or_404(SumsBYN, contract__id=contract_id)
+        instance_sum_rur = get_object_or_404(SumsRUR, contract__id=contract_id)
+
     if request.method == 'POST':
-        contract_form = ContractForm(request.POST)
-        sum_b_form = SumsBYNForm(request.POST)
-        sum_r_form = SumsRURForm(request.POST)
+        contract_form = ContractForm(request.POST, instance=instance_contract)
+        sum_byn_form = SumsBYNForm(request.POST, instance=instance_sum_byn)
+        sum_rur_form = SumsRURForm(request.POST, instance=instance_sum_rur)
         if \
                 contract_form.is_valid() \
-                and sum_b_form.is_valid() \
-                and sum_r_form.is_valid():
+                        and sum_byn_form.is_valid() \
+                        and sum_rur_form.is_valid():
             new_contract = contract_form.save()
-            contract_sum_b = sum_b_form.save(commit=False)
+            contract_sum_b = sum_byn_form.save(commit=False)
             contract_sum_b.contract = new_contract
             contract_sum_b.save()
-            contract_sum_r = sum_r_form.save(commit=False)
+            contract_sum_r = sum_rur_form.save(commit=False)
             contract_sum_r.contract = new_contract
             contract_sum_r.save()
+            return HttpResponse('saved')
 
-    contract_form = ContractForm
-    sum_b_form = SumsBYNForm
-    sum_r_form = SumsRURForm
+    contract_form = ContractForm(instance=instance_contract)
+    sum_byn_form = SumsBYNForm(instance=instance_sum_byn)
+    sum_rur_form = SumsRURForm(instance=instance_sum_rur)
     return render(request,
                   template_name='contracts/add_new_contract.html',
                   context={
-                      'contract_form':contract_form,
-                      'sum_b_form':sum_b_form,
-                      'sum_r_form':sum_r_form,
+                      'contract_form': contract_form,
+                      'sum_byn_form': sum_byn_form,
+                      'sum_rur_form': sum_rur_form,
                   })
 
 
-def change_contract(request, contract_id):
-    if request.method == 'POST':
-        contract = Contract.objects.get(id=contract_id)
-        contract_sum_b = SumsBYN.objects.get(contract=contract)
-        contract_sum_r = SumsRUR.objects.get(contract=contract)
-        contract_form = ContractForm(request.POST, instance=contract)
-        sum_b_form = SumsBYNForm(request.POST, instance=contract_sum_b)
-        sum_r_form = SumsRURForm(request.POST, instance=contract_sum_r)
-        if \
-                contract_form.is_valid() \
-                and sum_b_form.is_valid() \
-                and sum_r_form.is_valid():
-            new_contract = contract_form.save()
-            contract_sum_b = sum_b_form.save(commit=False)
-            contract_sum_b.contract = new_contract
-            contract_sum_b.save()
-            contract_sum_r = sum_r_form.save(commit=False)
-            contract_sum_r.contract = new_contract
-            contract_sum_r.save()
 
 
 
-    contract_item = Contract.objects.get(id=contract_id)
-    sum_byn_item = SumsBYN.objects.get(contract=contract_item)
-    sum_rur_item = SumsRUR.objects.get(contract=contract_item)
-    initial_contract = model_to_dict(contract_item)
-    initial_sum_byn = model_to_dict(sum_byn_item)
-    initial_sum_rur = model_to_dict(sum_rur_item)
-
-    contract_form = ContractForm(instance=contract_item)
-    sum_b_form = SumsBYNForm(instance=sum_byn_item)
-    sum_r_form = SumsRURForm(instance=sum_rur_item)
-    return render(request,
-                  template_name='contracts/add_new_contract.html',
-                  context={
-                      'contract_form':contract_form,
-                      'sum_b_form':sum_b_form,
-                      'sum_r_form':sum_r_form,
-                  })
