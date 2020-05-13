@@ -153,8 +153,3 @@ def fabricate_contract(request, contract_id=None):
                       'sum_byn_form': sum_byn_form,
                       'sum_rur_form': sum_rur_form,
                   })
-
-
-
-
-
