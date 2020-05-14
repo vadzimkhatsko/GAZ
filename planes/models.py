@@ -125,8 +125,8 @@ class UserActivityJournal(models.Model):
     )
     clicks = models.PositiveIntegerField(
         verbose_name="Количество кликов пользователя",
-        blank=True,
-        null=True
+        default=0,
+
     )
     activity_system_module = models.CharField(
         max_length=100,

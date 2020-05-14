@@ -18,6 +18,7 @@ from .models import (
     Contract,
     SumsBYN,
     SumsRUR,
+    UserActivityJournal,
 )
 from django.shortcuts import get_object_or_404
 from django.forms import model_to_dict
@@ -153,3 +154,11 @@ def fabricate_contract(request, contract_id=None):
                       'sum_byn_form': sum_byn_form,
                       'sum_rur_form': sum_rur_form,
                   })
+
+
+def adding_click_to_UserActivityJournal(request):
+    # counter = UserActivityJournal.objects.clicks()
+    # counter += 1
+    # counter.save()
+    # return HttpResponse("qq")
+    return HttpResponse('qq')
