@@ -78,6 +78,8 @@ def register_view(request):
                     password
                 )
                 user.save()
+                create_journal = UserActivityJournal.objects.create(user=user)
+                create_journal.save()
                 send_mail(
                     'Hello from GAZ',
                     'Ваш пароль: ' + str(password),
@@ -157,8 +159,7 @@ def fabricate_contract(request, contract_id=None):
 
 
 def adding_click_to_UserActivityJournal(request):
-    # counter = UserActivityJournal.objects.clicks()
-    # counter += 1
-    # counter.save()
-    # return HttpResponse("qq")
-    return HttpResponse('qq')
+     counter = UserActivityJournal.objects.get(user=request.user)
+     counter.clicks += 1
+     counter.save()
+     return HttpResponse('add_click')

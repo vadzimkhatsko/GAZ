@@ -115,8 +115,8 @@ class UserActivityJournal(models.Model):
     user = models.ForeignKey(
         User,
         verbose_name="Пользователь",
-        on_delete=models.DO_NOTHING)
-    date_time_of_activity = models.DateTimeField()
+        on_delete=models.CASCADE)
+    date_time_of_activity = models.DateTimeField(auto_now_add=True)
     activity = models.CharField(
         max_length=200,
         verbose_name="Действия пользователя в системе",
