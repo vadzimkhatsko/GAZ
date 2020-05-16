@@ -1,0 +1,12 @@
+{% extends "planes/base.html" %}
+
+{% block content %}
+
+<form action="{% url 'planes:edit_plane' item_id %}" method="post" >
+    {% csrf_token %}
+    {{ plan_form.as_p }}
+    <input type="submit" value="Ok">
+</form>
+
+  
+{% endblock content %}

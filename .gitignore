@@ -3,3 +3,5 @@
 db.sqlite3
 **/settings.py
 **/.gitignore
+.vscode
+static
