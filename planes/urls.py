@@ -9,7 +9,6 @@ from .views import (
 )
 
 
-
 urlpatterns = [
     path('', index),
     path('register/', register_view, name='register'),
@@ -17,6 +16,4 @@ urlpatterns = [
     path('contracts/create_contract/', fabricate_contract, name='create_contract'),
     path('contracts/change_contract/<contract_id>', fabricate_contract, name='change_contract'),
     path('add_click/', adding_click_to_UserActivityJournal, name='add_click'),
-
-
 ]

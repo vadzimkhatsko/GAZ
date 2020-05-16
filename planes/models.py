@@ -5,8 +5,8 @@ from django.shortcuts import reverse
 
 class Curator(models.Model):
     class Meta:
-        verbose_name = "Куратор"
-        verbose_name_plural = "Кураторы"
+        verbose_name = "Куратор (Подразделение)"
+        verbose_name_plural = "Кураторы (Подразделения)"
 
     title = models.CharField(
         max_length=120,
@@ -27,31 +27,8 @@ class UserTypes(models.Model):
 
     title = models.CharField(
         max_length=120,
-        verbose_name="Тип пользователя (Администратор, Куратор, БПиЭА, Пользователь)"
-    )
-
-    def __str__(self):
-        try:
-            return str(self.title)
-        except:
-            return 'Ошибка в данных'
-
-
-class UserSub(models.Model):
-    class Meta:
-        verbose_name = "Подтип пользователя"
-        verbose_name_plural = "Подтипы пользователя"
-
-    group = models.ForeignKey(
-        UserTypes,
-        verbose_name="Группа пользователей",
-        on_delete=models.DO_NOTHING
-    )
-    title = models.CharField(
-        max_length=150,
-        verbose_name="Подтип обычных пользователей (Экономист, специалист АСЭЗ, Юрист)",
-        blank=True,
-        null=True
+        verbose_name="Тип пользователя",
+        help_text="Администратор, Куратор, БПиЭА, Пользователь, Экономист, Спкциалист АСЭЗ, Юрист"
     )
 
     def __str__(self):
@@ -88,35 +65,35 @@ class CustomUser(models.Model):
     )
     user_type = models.ForeignKey(
         UserTypes,
-        verbose_name="Тип пользователя (Пользователь, Администратор, Куратор, Суперпользователь, БПиЭА)",
+        verbose_name="Тип пользователя (Пользователь, Администратор, Куратор, Суперпользователь, БПиЭА, Юрист, Экономист, Специалист АСЭЗ)",
         on_delete=models.DO_NOTHING
     )
-    user_sub_type = models.ForeignKey(
-        UserSub,
-        verbose_name="Подтип пользователей (Юрист, специалист АСЭЗ, Экономист)",
-        blank=True,
-        null=True,
-        on_delete=models.DO_NOTHING
+    blocked_status = models.BooleanField(
+        default=True,
+        verbose_name="Активный пользователь/Заблокированный"
     )
 
     def __str__(self):
         try:
-            return '%s - %s' % (self.curator, self.name)
+            return str(self.user)
         except:
             return 'Ошибка в данных'
 
 
-
 class UserActivityJournal(models.Model):
     class Meta:
-        verbose_name = 'Журнал активности пользователя'
-        verbose_name_plural = 'Журналы активностей'
+        verbose_name = 'Журнал действий пользователя'
+        verbose_name_plural = 'Журналы действий пользователя'
 
     user = models.ForeignKey(
         User,
         verbose_name="Пользователь",
-        on_delete=models.CASCADE)
-    date_time_of_activity = models.DateTimeField(auto_now_add=True)
+        on_delete=models.CASCADE
+    )
+    date_time_of_activity = models.DateTimeField(
+        verbose_name="Дата и время работы пользователя в системе",
+        auto_now_add=True
+    )
     activity = models.CharField(
         max_length=200,
         verbose_name="Действия пользователя в системе",
@@ -125,8 +102,7 @@ class UserActivityJournal(models.Model):
     )
     clicks = models.PositiveIntegerField(
         verbose_name="Количество кликов пользователя",
-        default=0,
-
+        default=0
     )
     activity_system_module = models.CharField(
         max_length=100,
@@ -136,7 +112,7 @@ class UserActivityJournal(models.Model):
 
     def __str__(self):
         try:
-            return str(self.user)
+            return f'Журнал действий пользователя: {self.user}'
         except:
             return 'Ошибка в данных'
 
@@ -165,7 +141,7 @@ class PurchaseType(models.Model):
 
     title = models.CharField(
         max_length=200,
-        verbose_name="Тип закупки (Конкурентная, неконкурентная)"
+        verbose_name="Вид закупки (Конкурентная, неконкурентная)"
     )
 
     def __str__(self):
@@ -211,8 +187,8 @@ class StateASEZ(models.Model):
 
 class NumberPZTRU(models.Model):
     class Meta:
-        verbose_name = 'Номер пункта ПоЗТРУ'
-        verbose_name_plural = 'Номера пунктов ПоЗТРУ'
+        verbose_name = 'Номер пункта Положения о закупках товаров, работ, услуг ПАО "Газпром"'
+        verbose_name_plural = 'Номера пунктов Положения о закупках товаров, работ, услуг ПАО "Газпром"'
 
     title = models.CharField(
         max_length=200,
@@ -220,10 +196,7 @@ class NumberPZTRU(models.Model):
     )
 
     def __str__(self):
-        try:
-            return str(self.title)
-        except:
-            return 'Ошибка в данных'
+        return self.title.__str__()
 
 
 class ContractStatus(models.Model):
@@ -237,10 +210,7 @@ class ContractStatus(models.Model):
     )
 
     def __str__(self):
-        try:
-            return str(self.title)
-        except:
-            return 'Ошибка в данных'
+        return self.title.__str__()
 
 
 class Currency(models.Model):
@@ -260,11 +230,10 @@ class Currency(models.Model):
             return 'Ошибка в данных'
 
 
-
 class ContractType(models.Model):
     class Meta:
-        verbose_name = 'Тип договора'
-        verbose_name_plural = 'Типы договоров'
+        verbose_name = 'Тип договора (Центр/Филиал)'
+        verbose_name_plural = 'Типы договоров (Центр/Филиал)'
 
     title = models.CharField(
         max_length=150,
@@ -280,8 +249,8 @@ class ContractType(models.Model):
 
 class ContractMode(models.Model):
     class Meta:
-        verbose_name = 'Вид договора'
-        verbose_name_plural = 'Виды договоров'
+        verbose_name = 'Вид договора (Основной/ доп. соглашение)'
+        verbose_name_plural = 'Виды договоров (Основной/ доп. соглашение)'
 
     title = models.CharField(
         max_length=150,
@@ -305,13 +274,22 @@ class Counterpart(models.Model):
         verbose_name="Контрагент"
     )
     email = models.EmailField()
-    reg_addr = models.CharField(max_length=255)
-    UNP = models.CharField(max_length=100)
-    phone = models.CharField(max_length=100)
+    reg_addr = models.CharField(
+        max_length=255,
+        verbose_name="Юридический адрес"
+    )
+    UNP = models.CharField(
+        max_length=100,
+        verbose_name="УНП"
+    )
+    phone = models.CharField(
+        max_length=100,
+        verbose_name="Номер телефона"
+    )
 
     def __str__(self):
         try:
-            return str(self.name)
+            return '%s УНП: %s' % (self.name, str(self.UNP))
         except:
             return 'Ошибка в данных'
 
@@ -323,12 +301,12 @@ class Contract(models.Model):
 
     title = models.CharField(
         max_length=150,
-        verbose_name="наименование договора"
+        verbose_name="Наименование договора"
     )
     finance_cost = models.ForeignKey(
         FinanceCosts,
         on_delete=models.DO_NOTHING,
-        verbose_name="статья финансирования")
+        verbose_name="Статья финансирования")
     curator = models.ForeignKey(
         Curator,
         on_delete=models.DO_NOTHING,
@@ -338,46 +316,46 @@ class Contract(models.Model):
         ContractType,
         verbose_name="Тип договора",
         on_delete=models.DO_NOTHING,
-        help_text="филиал или центръ"
+        help_text="Филиал или центръ"
     )
     contract_mode = models.ForeignKey(
         ContractMode,
         verbose_name="Вид договора",
         on_delete=models.DO_NOTHING,
-        help_text="основной либо доп.согл.")
+        help_text="Основной либо доп.согл.")
     purchase_type = models.ForeignKey(
         PurchaseType,
-        verbose_name="тип закупки",
+        verbose_name="Тип закупки",
         on_delete=models.DO_NOTHING,
         help_text="Вид закупки (конкурентная, неконкурентная)"
     )
     activity_form = models.ForeignKey(
         ActivityForm,
-        verbose_name="вид деятельности",
+        verbose_name="Вид деятельности",
         on_delete=models.DO_NOTHING
     )
     stateASEZ = models.ForeignKey(
         StateASEZ,
-        verbose_name="автоматизированая система эллектронных закупок",
+        verbose_name="Состояние в Автоматизированной системе эллектронных закупок",
         on_delete=models.DO_NOTHING
     )
     number_ppz = models.CharField(
         max_length=150,
-        verbose_name="номер позиция плана закупок",
+        verbose_name="Номер позиции плана закупок",
         null=True,
         blank=True
     )
     number_PZTRU = models.ForeignKey(
         NumberPZTRU,
         verbose_name="ПЗТРУ",
-        help_text="положение о закупках товаров, работ, услуг",
+        help_text="Номер Положения о закупках товаров, работ, услуг",
         on_delete=models.DO_NOTHING,
         null=True,
         blank=True
     )
     contract_status = models.ForeignKey(
         ContractStatus,
-        verbose_name="статус договора",
+        verbose_name="Статус договора",
         on_delete=models.DO_NOTHING,
         null=True,
         blank=True
@@ -393,6 +371,7 @@ class Contract(models.Model):
     currency = models.ForeignKey(
         Currency,
         on_delete=models.DO_NOTHING,
+        verbose_name="Валюта договора",
         blank=True,
         null=True
     )
@@ -414,10 +393,13 @@ class Contract(models.Model):
         null=True,
         blank=True
     )
-    plan_sign_date = models.DateField()
+    plan_sign_date = models.DateField(
+        verbose_name="Планируемая дата подписания договора"
+    )
     fact_sign_date = models.DateField(
+        verbose_name="Фактическая дата подписания договора",
         null=True,
-        blank=True,
+        blank=True
     )
     start_date = models.DateField(
         verbose_name="дата начала контракта"
@@ -429,10 +411,29 @@ class Contract(models.Model):
     counterpart = models.ForeignKey(
         Counterpart,
         on_delete=models.DO_NOTHING,
-        verbose_name='Контрагент')
+        verbose_name="Контрагент"
+    )
+    related_contract = models.ForeignKey(
+        "Contract",
+        on_delete=models.DO_NOTHING,
+        verbose_name="Связанный договор",
+        blank=True,
+        null=True
+    )
+    contract_active = models.BooleanField(
+        default=True,
+        verbose_name="Действующий/Удаленный договор",
+        blank=True,
+        null=True
+    )
 
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)  # TODO   contact_mode
+    def __str__(self):
+        try:
+            return 'Договор %s, куратор %s, ст. фин %s' % (self.title,
+                                                           self.curator,
+                                                           self.finance_cost)
+        except:
+            return 'Ошибка в данных'
 
     def get_absolute_url(self):
         return reverse('change_contract', kwargs={'contract_id':self.id})
@@ -448,28 +449,50 @@ class Contract(models.Model):
 
 class SumsRUR(models.Model):
     class Meta:
-        verbose_name = 'Сумма RUR'
-        verbose_name_plural = 'Суммы RUR'
+        verbose_name = 'Показатели договора в иностранной валюте'
+        verbose_name_plural = 'Показатели договора в иностранной валюте'
+
+    YEARS = [
+        ("2018", "2018"),
+        ("2019", "2019"),
+        ("2020", "2020"),
+        ("2021", "2021"),
+        ("2022", "2022"),
+        ("2023", "2023"),
+        ("2024", "2024"),
+        ("2025", "2025"),
+    ]
 
     contract = models.ForeignKey(
         Contract,
         verbose_name="Контракт",
-        on_delete=models.CASCADE
+        on_delete=models.DO_NOTHING
     )
-    start_max_price_ASEZ_NDS = models.PositiveIntegerField(
-        verbose_name="Начальная максимальная цена (НМЦ) АСЭЗ с НДС ",
+    year = models.CharField(
+        verbose_name="Год",
+        choices=YEARS,
+        max_length=4
+    )
+    start_max_price_ASEZ_NDS = models.DecimalField(
+        verbose_name="стартовая цена АСЭЗ с НДС ",
         null=True,
-        blank=True
+        blank=True,
+        decimal_places=2,
+        max_digits=12
     )
-    currency_rate_on_load_date_ASEZ_NDS = models.FloatField(
+    currency_rate_on_load_date_ASEZ_NDS = models.DecimalField(
         verbose_name="Курс валюты на дату загрузки в бел.руб.",
         null=True,
-        blank=True
+        blank=True,
+        decimal_places=5,
+        max_digits=12
     )
-    contract_sum_NDS_RUB = models.FloatField(
+    contract_sum_NDS_RUB = models.DecimalField(
         verbose_name="Сумма договора с НДС рос.руб.",
         blank=True,
-        null=True
+        null=True,
+        decimal_places=2,
+        max_digits=12
     )
     currency = models.ForeignKey(
         Currency,
@@ -478,79 +501,200 @@ class SumsRUR(models.Model):
         blank=True,
         null=True
     )
-    delta_data_ASEZ = models.FloatField(
+    delta_data_ASEZ = models.DecimalField(
         verbose_name="Отклонение от НМЦ в АСЭЗ",
         blank=True,
-        null=True
+        null=True,
+        decimal_places=2,
+        max_digits=12
     )
 
     def __str__(self):
         try:
-            return 'Договор %s, сумма %s' % (self.contract, self.contract_sum_NDS_RUB)
+            return 'Показатели договора %s в российских рублях' % (self.contract)
         except:
             return 'Ошибка в данных'
+
+    def save(self, *args, **kwargs):
+        try:
+            sum_byn = SumsBYN.objects.filter(year=self.year).filter(period='year').get(contract_id=self.contract_id).contract_sum_with_NDS_BYN
+            self.contract_sum_NDS_RUB = sum_byn * self.currency_rate_on_load_date_ASEZ_NDS
+            self.delta_data_ASEZ = self.start_max_price_ASEZ_NDS - self.contract_sum_NDS_RUB
+        except:
+            self.contract_sum_NDS_RUB = 0
+            self.delta_data_ASEZ = 0
+        super().save(*args, **kwargs)
 
 
 class SumsBYN(models.Model):
     class Meta:
-        verbose_name = 'Сумма BYN'
-        verbose_name_plural = 'Суммы BYN'
+        verbose_name = 'Показатели договора в белорусских рублях'
+        verbose_name_plural = 'Показатели договора в белорусских рублях'
+        unique_together = [['contract', 'year', 'period']]
 
-    contract = models.ForeignKey(Contract, on_delete=models.CASCADE)
-    year = models.DateField()
-    plan_sum_SAP = models.FloatField(
+    YEARS = [
+        ("2018", "2018"),
+        ("2019", "2019"),
+        ("2020", "2020"),
+        ("2021", "2021"),
+        ("2022", "2022"),
+        ("2023", "2023"),
+        ("2024", "2024"),
+        ("2025", "2025"),
+    ]
+    PERIODS = [
+        ("year", "year"),
+        ("1quart", "1 quarter"),
+        ("2quart", "2 quarter"),
+        ("3quart", "3 quarter"),
+        ("4quart", "4 quarter"),
+        ("6months", "6months"),
+        ("9months", "9months"),
+        ("10months", "10months"),
+        ("11months", "11months"),
+        ("jan", "january"),
+        ("feb", "february"),
+        ("mar", "march"),
+        ("apr", "april"),
+        ("may", "may"),
+        ("jun", "june"),
+        ("jul", "july"),
+        ("aug", "august"),
+        ("sep", "september"),
+        ("oct", "october"),
+        ("nov", "november"),
+        ("dec", "december")
+    ]
+    contract = models.ForeignKey(
+        Contract,
+        on_delete=models.DO_NOTHING,
+        verbose_name="Контракт"
+    )
+    year = models.CharField(
+        verbose_name="Год",
+        choices=YEARS,
+        max_length=4
+    )
+    period = models.CharField(
+        choices=PERIODS,
+        verbose_name="Период",
+        max_length=15
+    )
+    plan_sum_SAP = models.DecimalField(
         verbose_name="Плановая сумма САП",
         blank=True,
-        null=True
+        null=True,
+        decimal_places=2,
+        max_digits=12
     )
-    contract_sum_without_NDS_BYN = models.FloatField(
+    contract_sum_without_NDS_BYN = models.DecimalField(
         verbose_name="Сумма всего договора без НДС",
-        default=0
+        default=0,
+        decimal_places=2,
+        max_digits=12
     )
-    contract_sum_with_NDS_BYN = models.FloatField(
+    contract_sum_with_NDS_BYN = models.DecimalField(
         verbose_name="Сумма договора с НДС бел.руб.",
         blank=True,
-        null=True
+        null=True,
+        decimal_places=2,
+        max_digits=12
     )
-    contract_total_sum_with_sub_BYN = models.FloatField(
+    contract_total_sum_with_sub_BYN = models.DecimalField(
         verbose_name='Общая сумма договора всего с доп соглашениями, б.р. без ндс',
         null=True,
         blank=True,
+        decimal_places=2,
+        max_digits=12
     )
-    forecast_total = models.FloatField(
+    forecast_total = models.DecimalField(
         verbose_name='Прогноз, всего',
         blank=True,
-        null=True
+        null=True,
+        decimal_places=2,
+        max_digits=12
     )
-    economy_total = models.FloatField(
+    economy_total = models.DecimalField(
         verbose_name='Экономия по заключенному договору, всего',
         blank=True,
-        null=True
+        null=True,
+        decimal_places=2,
+        max_digits=12
     )
-    fact_total = models.FloatField(
+    fact_total = models.DecimalField(
         verbose_name='Факт, всего',
         blank=True,
-        null=True
+        null=True,
+        decimal_places=2,
+        max_digits=12
     )
-    economy_contract_result = models.FloatField(
+    economy_contract_result = models.DecimalField(
         verbose_name='Экономия по результатам исполнения договоров всего',
         blank=True,
-        null=True
+        null=True,
+        decimal_places=2,
+        max_digits=12
     )
-    total_sum_unsigned_contracts = models.FloatField(
+    total_sum_unsigned_contracts = models.DecimalField(
         verbose_name='Сумма средств по незаключенным договорам',
         blank=True,
-        null=True
+        null=True,
+        decimal_places=2,
+        max_digits=12
     )
-    economy_total_absolute = models.FloatField(
+    economy_total_absolute = models.DecimalField(
         verbose_name='Абсолютная экономия по договору, всего',
         blank=True,
-        null=True
+        null=True,
+        decimal_places=2,
+        max_digits=12
     )
 
     def __str__(self):
         try:
-            return 'Договор %s, сумма %s' % (self.contract, self.contract_sum_with_NDS_BYN)
+            return 'Показатели договора %s в белорусских рублях за %s год %s' % (self.contract, self.year, self.period)
+        except:
+            return 'Ошибка в данных'
+
+
+class ContractPaymentSchedule(models.Model):
+    class Meta:
+        verbose_name = 'График платежей по договору'
+        verbose_name_plural = 'Графики платежей по договору'
+
+    contract = models.ForeignKey(
+        Contract,
+        verbose_name="Договора",
+        on_delete=models.CASCADE
+    )
+    payment_date = models.DateField(
+        verbose_name="Дата платежа"
+    )
+
+    def __str__(self):
+        try:
+            return f'График платежей по договору : {self.contract}, оплата до: {self.payment_date}'
+        except:
+            return 'Ошибка в данных'
+
+
+class ContractRemarks(models.Model):
+    class Meta:
+        verbose_name = 'Примечание к договору'
+        verbose_name_plural = 'Примечания к договору'
+
+    contract = models.ForeignKey(
+        Contract,
+        verbose_name="Контракт",
+        on_delete=models.CASCADE
+    )
+    remark_text = models.TextField(
+        verbose_name="Текст примечания"
+    )
+
+    def __str__(self):
+        try:
+            return f'Примечание к Договору {self.contract}'
         except:
             return 'Ошибка в данных'
 
@@ -559,42 +703,79 @@ class Planning(models.Model):
     class Meta:
         verbose_name = 'Планирование'
         verbose_name_plural = 'Планирование'
+        unique_together = [['FinanceCosts', 'curator', 'year']]
 
+    YEARS = [
+        ("2018", "2018"),
+        ("2019", "2019"),
+        ("2020", "2020"),
+        ("2021", "2021"),
+        ("2022", "2022"),
+        ("2023", "2023"),
+        ("2024", "2024"),
+        ("2025", "2025"),
+    ]
 
     FinanceCosts = models.ForeignKey(
         FinanceCosts,
         verbose_name="Статья финансирования",
-        on_delete=models.DO_NOTHING
+        on_delete=models.DO_NOTHING,
+        blank=True,
+        null=True
     )
     curator = models.ForeignKey(
         Curator,
         verbose_name="Куратор",
         on_delete=models.DO_NOTHING
     )
-    year = models.DateField(
-        verbose_name="Год"
+    year = models.CharField(
+        verbose_name="Год",
+        choices=YEARS,
+        max_length=4
     )
-    period = models.DateField(
-        verbose_name="Период"
+    q_1 = models.DecimalField(
+        verbose_name="Сумма лимита 1 квартал",
+        max_digits=12,
+        decimal_places=2,
+        default=0,
+        null=True
     )
-    total = models.FloatField(
-        verbose_name="Сумма, Лимит средств",
-        default=0
+    q_2 = models.DecimalField(
+        verbose_name="Сумма лимита 2 квартал",
+        max_digits=12,
+        decimal_places=2,
+        default=0,
+        null=True
     )
-    currency = models.ForeignKey(
-        Currency,
-        verbose_name="Валюта",
-        blank=True,
-        null=True,
-        on_delete=models.DO_NOTHING
+    q_3 = models.DecimalField(
+        verbose_name="Сумма лимита 3 квартал",
+        max_digits=12,
+        decimal_places=2,
+        default=0,
+        null=True
+    )
+    q_4 = models.DecimalField(
+        verbose_name="Сумма лимита 4 квартал",
+        max_digits=12,
+        decimal_places=2,
+        default=0,
+        null=True
+    )
+    q_all = models.DecimalField(
+        verbose_name="Сумма лимита за весь год",
+        max_digits=12,
+        decimal_places=2,
+        default=0,
+        null=True
     )
 
     def __str__(self):
         try:
-            return 'Год %s, статья %s, куратор %s' % (self.year, self.FinanceCosts, self.curator)
-        except:
+            return f'Планирование {self.year} год, по куратору {self.curator}, ст. фин {self.FinanceCosts}'
+        except Exception:
             return 'Ошибка в данных'
 
-
-
+    def save(self, *args, **kwargs):
+        self.q_all = self.q_1 + self.q_2 + self.q_3 + self.q_4
+        super().save(*args, **kwargs)
 

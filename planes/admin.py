@@ -2,7 +2,6 @@ from django.contrib import admin
 from .models import (
     Curator,
     UserTypes,
-    UserSub,
     CustomUser,
     UserActivityJournal,
     FinanceCosts,
@@ -24,7 +23,6 @@ from .models import (
 models = (
     Curator,
     UserTypes,
-    UserSub,
     CustomUser,
     UserActivityJournal,
     FinanceCosts,
