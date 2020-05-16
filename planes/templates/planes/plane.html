@@ -1,0 +1,30 @@
+{% extends "planes/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<table class="summary-table">
+    <tr>
+        <th class="table-head">Статья финансирования</th>
+        <th class="table-head">Квартал 1</th>
+        <th class="table-head">Квартал 2</th>
+        <th class="table-head">Квартал 3</th>
+        <th class="table-head">Квартал 4</th>
+        <th class="table-head">Итого</th>
+    </tr>
+    {% for cost, money in send_list %}
+        <tr class="row">
+            <td><a href="{% url 'planes:curators' cost.id %}">{{ cost.title }}</a></td>
+            <td class="money">{{ money.q_1 }}</td>
+            <td class="money" >{{ money.q_2 }}</td>
+            <td class="money" >{{ money.q_3 }}</td>
+            <td class="money" >{{ money.q_4 }}</td>
+        </tr>
+    {% endfor %}
+
+</table>
+<script src="{% static 'planes/js/plane.js' %}"></script>
+
+
+{% endblock content %}
+

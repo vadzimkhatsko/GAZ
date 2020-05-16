@@ -1,0 +1,39 @@
+
+{% extends "planes/base.html" %}
+{% load static %} 
+
+{% block content %}
+<p class="cost-title">{{ finance_cost_name }}</p>
+<table>
+    <tr>
+        <th>Куратор</th>
+        <th>1 квартал</th>
+        <th>2 квартал</th>
+        <th>3 квартал</th>
+        <th>4 квартал</th>
+        <th>Год</th>
+    </tr>
+    {% for item in planning  %}
+        <tr class="row-curator">
+            <td><a href="{% url 'planes:edit_plane' item.id %}">{{ item.curator.title }}</a>  </td>
+            <td class="quart">{{ item.q_1 }}</td>
+            <td class="quart">{{ item.q_2 }}</td>
+            <td class="quart">{{ item.q_3 }}</td>
+            <td class="quart">{{ item.q_4 }}</td>
+            <td class="res-curat-fot-year"> 0 </td>           
+            
+        </tr>
+    {% endfor %}
+    <tr class="all-result">
+        <td>Итого</td>
+        <td class="result-money"></td>
+        <td class="result-money"></td>
+        <td class="result-money"></td>
+        <td class="result-money"></td>
+        <td class="result-money"></td>
+    </tr>
+
+</table>
+<p><a href="{% url 'planes:add' finance_cost_id %}">Добавить куратора </a></p>
+<script type="text/javascript" src={% static "planes/js/curators.js" %}></script>
+{% endblock content %}
