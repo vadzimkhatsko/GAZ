@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3>Создание плана</h3>
+
+{#<form action="" method="POST">#}
+{#    {% csrf_token %}#}
+{#    {{ select_form }}#}
+{#    <input type="submit" value="Применить" name="test1">#}
+{#</form>#}
+
+<form method="POST">
+    {% csrf_token %}
+    {{ select_form }}
+    <table>
+        {{ formset.management_form }}
+
+        {% for form in formset.forms %}
+          {% if forloop.first %}
+          <thead>
+              <tr>
+                {% for field in form.visible_fields %}
+                    <th>{{ field.label|capfirst }}</th>
+                {% endfor %}
+              </tr>
+          </thead>
+          {% endif %}
+
+          <tr>
+          {% for field in form.visible_fields %}
+            <td>
+            {# Include the hidden fields in the form #}
+                {% if forloop.first %}
+                  {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                  {% endfor %}
+                {% endif %}
+
+                {{ field.errors.as_ul }}
+                {{field}}
+            </td>
+          {% endfor %}
+          </tr>
+
+        {% endfor %}
+    </table>
+
+    <br>
+    <input type="submit" value="Применить" name="test1">
+</form>
+
+</body>
+</html>

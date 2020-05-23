@@ -46,7 +46,7 @@ class PlanningForm(forms.ModelForm):
         fields = (
             'FinanceCosts', 'curator', 'year',
             'q_1', 'q_2', 'q_3', 
-            'q_4', 'period', 'delete'
+            'q_4', 'delete'
             )
         labels={
             'FinanceCost':'Статья финансирования',
@@ -55,6 +55,13 @@ class PlanningForm(forms.ModelForm):
             'q_1':'Квартал 1',
             'q_2':'Квартал 2',
             'q_3':'Квартал 3',
-            'q_4':'Квартал 4',
-            'period':'Период хз'
+            'q_4':'Квартал 4'
+        }
+
+class YearForm(forms.ModelForm):
+    class Meta:
+        model = Planning
+        fields = ('year',)
+        labels = {
+            'year': 'Год'
         }

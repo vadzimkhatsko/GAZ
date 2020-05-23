@@ -636,6 +636,9 @@ class SumsBYN(models.Model):
             return 'Ошибка в данных'
 
 
+
+
+
 class ContractRemarks(models.Model):
     class Meta:
         verbose_name = 'Примечание к договору'
@@ -674,6 +677,12 @@ class ContractPaymentSchedule(models.Model):
     def __str__(self):
         try:
             return f'График платежей по договору : {self.contract}, оплата до: {self.payment_date}'
+        except:
+            return 'Ошибка в данных'
+
+    def __str__(self):
+        try:
+            return 'Показатели договора %s в белорусских рублях за %s год %s' % (self.contract, self.year, self.period)
         except:
             return 'Ошибка в данных'
 
@@ -745,9 +754,6 @@ class Planning(models.Model):
         decimal_places=2,
         default=0,
         null=True
-    )
-    period = models.DateField( # TODO why we need it?
-        verbose_name="Период"
     )
 
     def __str__(self):
