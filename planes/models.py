@@ -86,8 +86,7 @@ class UserActivityJournal(models.Model):
         verbose_name="Дата и время работы пользователя в системе",
         auto_now_add=True
     )
-    activity = models.CharField(
-        max_length=200,
+    activity = models.TextField(
         verbose_name="Действия пользователя в системе",
         blank=True,
         null=True

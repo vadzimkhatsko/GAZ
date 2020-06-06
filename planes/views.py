@@ -11,6 +11,7 @@ from .forms import (
     YearForm,
 )
 from django.contrib.auth.decorators import login_required
+#from .decorators import adding_url_to_UserActivityJournal
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -31,9 +32,11 @@ from django.forms import model_to_dict
 import json
 
 
+
+
 @login_required
 def index(request):
-    return render(request, 'planes/index.html')
+    return render(request, 'base.html')
 
 
 @login_required
@@ -99,6 +102,21 @@ def register_view(request):
         form = RegisterForm()
     context = {'form': form}
     return render(request, 'registration/register.html', context)
+
+
+def adding_url_to_UserActivityJournal(func):
+    def wraper(request):
+        counter = UserActivityJournal.objects.get(user=request.user)
+        counter.activity += str(request.path) + '/n'
+        counter.save()
+        return func(request)
+    return wraper
+
+
+def qwerty(request):
+    response = {}
+    response['journals'] = UserActivityJournal.objects.all()
+    return render(request, 'planes/qwerty.html', response)
 
 
 class ContractView(View):
@@ -223,6 +241,10 @@ def adding_click_to_UserActivityJournal(request):
      return HttpResponse('add_click')
 
 
+
+
+
+
 def plane(request):
     finance_costs = FinanceCosts.objects.all()
     year = YearForm(initial={
@@ -261,7 +283,7 @@ def curators(request, finance_cost_id):
     }
     return render (request, './planes/curators.html', response)
 
-  
+
 def from_js(request):
     a = request.body.decode('utf-8')
     jsn = json.loads(a)
@@ -320,7 +342,8 @@ def edit_plane(request, item_id):
             return redirect(f'/plane/{str(plan.FinanceCosts.id)}/curators' )
     return render(request, './planes/edit_plane.html', response)
 
-  
+
+
 def add(request, finance_cost_id):
     plane_form = PlanningForm(initial={
         'FinanceCosts': finance_cost_id,
