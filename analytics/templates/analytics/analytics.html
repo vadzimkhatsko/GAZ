@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <div id="data-container">
+        <ul>
+            <li><a href="{% url 'analytics:implementation_plan' %}">Исполнение плана по Минскому УМГ</a></li>
+            <li><a href="{% url 'analytics:deviation_analysis' %}">Анализ отклонений</a></li>
+            <li><a href="{% url 'analytics:report_RKDZ' %}">Отчет RDKZ</a></li>
+        </ul>
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,66 @@
+{% extends 'base.html'%}
+
+{% load static %}
+
+{% block content %}
+
+{#    <div class="container">#}
+{#        <h1>Уведомления</h1>#}
+{#    </div>#}
+
+    <div class="action-list-headliner">
+            <a href="" class="action-list-txt">Важные</a>
+    </div>
+
+    <div id="data-container">
+
+{#    <div class="notifications-list-container">#}
+            <table class="notification-table">
+
+                <tr>
+                    <td class="notification-status not-default">
+{#                        <div class="td-containers">#}
+{#                        </div>#}
+                    </td>
+                    <td class="notification-date not-default bold">
+{#                        <div class="td-containers">#}
+                        <div>Дата</div>
+                    </td>
+                    <td class="notification-cell not-default bold">
+{#                        <div class="td-containers">#}
+                        <div>Уведомление</div>
+                    </td>
+                </tr>
+{#                --------------------------#}
+
+                {% for note in notes_list %}
+                <tr>
+                    <td class="notification-status">
+{#                        <div class="td-containers ">#}
+                            <div><input type="checkbox" name="" id=""></div>
+{#                        </div>#}
+                    </td>
+                    <td class="notification-date">
+                        <div class="td-containers active-not-cont">
+                            {{ note.date }}
+                        </div>
+                    </td>
+                    <td class="notification-cell">
+                        <div class="td-containers active-not-cont">
+                            {{ note.text }}
+                        </div>
+                    </td>
+
+                </tr>
+                {% endfor %}
+            </table>
+{#    </div>#}
+
+    </div>
+
+    <div class="buttons-container">
+{#        <button class="button" onclick="">Тест</button>#}
+        <button class="button" onclick="history.back()">Назад</button>
+    </div>
+
+{% endblock content %}
