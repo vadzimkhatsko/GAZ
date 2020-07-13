@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IntroPage</title>
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
 </head>
@@ -12,29 +13,26 @@
 
     <div class="sign-in-page">
 
-        <div class="sign-in-logo">
-            <a href=""><img class="logo" src="{% static 'img/gazpromlogo_2.png' %}" alt="logo"></a>
-        </div>
-
         <div class="sign-in-window">
-            {% if user.is_authenticated %}
-            <h1>Вы вошли, как: {{ user.password }}</h1><button><a href="{% url 'logout' %}">Выйти</a></button></h1>
-            {% else %}
-            <div class="inputs">
-                <form method="post" action="{% url 'login' %}">
 
-                    {% csrf_token %}
-                    <br><br><br>
-                    <input type="text" placeholder="Login" class="sign-in-textfield" {{ form.username }}>
-                    <br>
-                    <input type="text" placeholder="Password" class="sign-in-textfield" {{ form.password }}>
-                    <p><input type="submit" class="button" value="Войти"></p>
-                </form>
+            <div class="sign-in-logo-field">
+    {#            <a href=""><img class="logo" src="{% static 'img/gazpromlogo_5.png' %}" alt="logo"></a>#}
+                <img class="sign-in-logo" src="{% static 'img/gazpromlogo-blue.png' %}" alt="logo">
             </div>
-            {% endif %}
+
+            <form class="inputs" method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                {{ form.username }}
+                {{ form.password }}
+                <button type="submit" class="button">Вход</button>
+            </form>
             {% if form.errors %}
-            <h1>проверьте введенные вами данные</h1>
+                <h3>Проверьте введенные вами данные!</h3>
             {% endif %}
+
         </div>
 
     </div>
+
+</body>
+</html>

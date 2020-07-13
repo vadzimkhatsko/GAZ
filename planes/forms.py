@@ -4,32 +4,42 @@ from planes.models import (
   Planning,
   Contract,
   SumsBYN,
-  SumsRUR)
-
-
-
+  SumsRUR,
+  Curator
+  )
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput)
+    username = forms.CharField(widget=forms.TextInput(attrs={
+        'class':'sign-in-textfield',
+        'placeholder':"Login",
+    }))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class':'sign-in-textfield',
+        'placeholder':'Password',
+    }))
 
 
 class RegisterForm(forms.Form):
     username = forms.CharField()
     email = forms.EmailField(required=True)
 
-
+from django.contrib.admin.widgets import AdminDateWidget
 class ContractForm(forms.ModelForm):
     class Meta:
         model = Contract
         exclude = []
-
-
-class SumsBYNForm(forms.ModelForm):
-    class Meta:
-        model = SumsBYN
-        exclude = ['contract']
+        widgets = {
+            'title': forms.TextInput(attrs={'placeholder':'введите название'}),
+            # 'plan_load_date_ASEZ': forms.SelectDateWidget(
+            #     empty_label=("Choose Year", "Choose Month", "Choose Day")),
+            'plan_load_date_ASEZ': forms.TextInput(attrs={'type': 'date'}),
+            'fact_load_date_ASEZ': forms.TextInput(attrs={'type': 'date'}),
+            'plan_sign_date': forms.TextInput(attrs={'type': 'date'}),
+            'fact_sign_date': forms.TextInput(attrs={'type': 'date'}),
+            'start_date': forms.TextInput(attrs={'type': 'date'}),
+            'end_time': forms.TextInput(attrs={'type': 'date'}),
+        }
 
 
 class SumsRURForm(forms.ModelForm):
@@ -38,9 +48,42 @@ class SumsRURForm(forms.ModelForm):
         exclude = ['contract']
 
 
+class SumsBYNForm_months(forms.ModelForm): # TODO TESTdelete it away
+    class Meta:
+        model = SumsBYN
+        fields = [
+            'period',
+            'forecast_total',
+            'fact_total',
+            ]
+
+class SumsBYNForm_quarts(forms.ModelForm): # TODO TESTdelete it away
+    class Meta:
+        model = SumsBYN
+        fields = [
+            'period',
+            'plan_sum_SAP',
+            'contract_sum_without_NDS_BYN',
+        ]
+
+
+class SumsBYNForm_year(forms.ModelForm):
+    class Media:
+        js = ('planes/js/script_form_year.js',)
+
+    class Meta:
+        model = SumsBYN
+        fields = [
+            'period',
+            'contract_sum_with_NDS_BYN',
+            'contract_sum_without_NDS_BYN',
+        ]
+
 
 class PlanningForm(forms.ModelForm):
+    curator = forms.ModelChoiceField(Curator.objects.exclude(title='ALL'))
     delete = forms.BooleanField(label='удалить', required=False)
+
     class Meta:
         model = Planning
         fields = (
@@ -65,3 +108,7 @@ class YearForm(forms.ModelForm):
         labels = {
             'year': 'Год'
         }
+
+
+class UploadFileForm(forms.Form):
+    file = forms.FileField()

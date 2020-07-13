@@ -1,10 +1,16 @@
 **/__pycache__
 **/migrations
-db.sqlite3
+../test_bd/db.sqlite3
 **/settings.py
 **/.gitignore
 .vscode
+/desc
+/Реестр договоров.xlsx
+/desk_lb.txt
+/debug.log
+/analytics/static/styles/
 .idea
 debug.log
 env
-s
+db.sqlite3
+env

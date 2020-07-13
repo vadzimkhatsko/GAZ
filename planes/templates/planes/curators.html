@@ -1,9 +1,16 @@
+{% extends 'base.html' %}
 
-{% extends "planes/base.html" %}
 {% load static %} 
 
 {% block content %}
-<p class="cost-title">{{ finance_cost_name }}</p>
+
+{#<p class="cost-title">{{ finance_cost_name }}</p>#}
+<div class="headline">
+  <h2 class="cost-title">{{ finance_cost_name }}</h2>
+</div>
+
+<div id="data-container">
+
 <table>
     <tr>
         <th>Куратор</th>
@@ -15,7 +22,7 @@
     </tr>
     {% for item in planning  %}
         <tr class="row-curator">
-            <td><a href="{% url 'planes:edit_plane' item.id %}">{{ item.curator.title }}</a>  </td>
+            <td><a href="{% url 'planes:edit_plane' year item.id %}">{{ item.curator.title }}</a>  </td>
             <td class="quart">{{ item.q_1 }}</td>
             <td class="quart">{{ item.q_2 }}</td>
             <td class="quart">{{ item.q_3 }}</td>
@@ -34,6 +41,13 @@
     </tr>
 
 </table>
-<p><a href="{% url 'planes:add' finance_cost_id %}">Добавить куратора </a></p>
+<p><a href="{% url 'planes:add' year finance_cost_id %}">Добавить куратора </a></p>
+
+</div>
+
+<script>
+     data_from_django = {{ year }}
+</script>
 <script type="text/javascript" src={% static "planes/js/curators.js" %}></script>
+
 {% endblock content %}

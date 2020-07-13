@@ -1,26 +1,53 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{% static '/planes/js/script_form_year.js' %}"></script>
 </head>
 <body>
-Добавление нового контракта<br>
+
+
 <form action="" method="post">
     {% csrf_token %}
-    {% for field in contract_form %}
-        {{ field.label }}:{{ field }}<br>
-    {% endfor %}
-    <br>ФОРМА 2<br>
-    {% for field in sum_byn_form %}
-        {{ field.label }}:{{ field }}<br>
-    {% endfor %}
-    <br>ФОРМА 3<br>
-    {% for field in sum_rur_form %}
-            {{ field.label }}:{{ field }}<br>
-    {% endfor %}
+    <table>
+        {% for right in cant_do_this %}
+            <input hidden name="{{ right.name }}" value="{{right.value}}" id="id_{{ right.name }}">
+        {% endfor %}
+
+
+        {{ contract_form }}
+    </table>
+    <br>
+    <table>
+        {{ sum_byn_year_form }}
+    </table>
+    <hr><hr>
+    {{ formset_months.management_form }}
+    <table>
+        {% for form in formset_months %}
+            {{ form }}
+        {% endfor %}
+    </table>
+    <hr><hr>
+
+    {{ formset_quarts.management_form }}
+    <table>
+        {% for form in formset_quarts %}
+            {{ form }}
+        {% endfor %}
+    </table>
+    <hr><hr>
+
+    <table>
+    {{ rur_form }}
+    </table>
+
     <button type="submit">ОК</button>
 </form>
+
 
 </body>
 </html>

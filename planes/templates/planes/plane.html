@@ -1,7 +1,9 @@
-{% extends "planes/base.html" %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
+
+<div id="data-container">
 
 <table class="summary-table">
     <tr>
@@ -14,7 +16,7 @@
     </tr>
     {% for cost, money in send_list %}
         <tr class="row">
-            <td><a href="{% url 'planes:curators' cost.id %}">{{ cost.title }}</a></td>
+            <td><a href="{% url 'planes:curators' year cost.id %}">{{ cost.title }}</a></td>
             <td class="money">{{ money.q_1 }}</td>
             <td class="money" >{{ money.q_2 }}</td>
             <td class="money" >{{ money.q_3 }}</td>
@@ -23,12 +25,14 @@
     {% endfor %}
 
 </table>
-<form action="" method="post" >
+<form action="{% url 'planes:planes' %}" method="post" >
     {% csrf_token %}
-    {{ year }}
-    <input type="submit" value="Add">
+    {{ year_f }}
+    <input type="submit" value="Обновить">
 </form>
-<script src="{% static 'planes/js/plane.js' %}"></script>
 
+</div>
+
+<script src="{% static 'planes/js/plane.js' %}"></script>
 
 {% endblock content %}
