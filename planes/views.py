@@ -30,6 +30,7 @@ from .models import (
 from django.shortcuts import get_object_or_404
 from django.forms import model_to_dict
 import json
+import datetime
 
 
 
@@ -53,9 +54,17 @@ def login_view(request,):
                 username=form.cleaned_data['username'],
                 password=form.cleaned_data['password']
             )
+
             if user is not None:
                 if user.is_active:
                     login(request, user)
+                    add_to_journal = UserActivityJournal.objects.get(user=request.user)
+                    now = datetime.datetime.now()
+                    add_to_journal.activity += now.strftime('%m-%d-%Y %H:%M:%S') + \
+                                               "   " + \
+                                               "пользователь вошел в систему" + \
+                                               '\n'
+                    add_to_journal.save()
                     return redirect('/')
                 else:
                     return HttpResponse('disable account')
@@ -107,7 +116,8 @@ def register_view(request):
 def adding_url_to_UserActivityJournal(func):
     def wraper(request):
         counter = UserActivityJournal.objects.get(user=request.user)
-        counter.activity += str(request.path) + '/n'
+        now = datetime.datetime.now()
+        counter.activity += now.strftime('%m-%d-%Y %H:%M:%S') + '   ' + request.path + '\n'
         counter.save()
         return func(request)
     return wraper
